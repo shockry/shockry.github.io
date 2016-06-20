@@ -1,4 +1,15 @@
 body {
-	background-color: #5D5D5D;
+	background-color: #313030;
 	color: #F7F7F7;
+}
+
+.caret {
+	content: "";
+    width: 10px;
+    height: 30px;
+    background-color: #5D5D5D;
+    top: 10px;
+    margin-left: 5px;
+    position: relative;
+    display: inline-block;
 }
