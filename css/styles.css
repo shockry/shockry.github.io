@@ -1,3 +1,9 @@
+.caret::after {
+    /*Just a placeholder to be changed from the JS
+      cuz I'm tired of trying to append it to the end @_@ */
+    right:0px;
+}
+
 body {
     background-color: #313030;
     color: #F7F7F7;
@@ -13,6 +19,7 @@ body {
     width: 10px;
     height: 25px;
     background-color: #5D5D5D;
+    opacity: .4;
     top: 8px;
     position: relative;
     display: inline-block;
