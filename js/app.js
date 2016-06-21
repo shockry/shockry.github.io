@@ -8,7 +8,7 @@ function moveCaret (direction) {
     var sheet = document.styleSheets[0];
 
     //Remove first rule (always ".caret::after")
-    sheet.removeRule(0);
+    sheet.deleteRule(0);
 
     if (direction == 'left') {
         //Every character is 8 pixels in width
