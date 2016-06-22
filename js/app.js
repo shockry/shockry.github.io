@@ -5,7 +5,15 @@ var caretLocation = 0;
 
 var promptElem = document.querySelector("#prompt");
 
-var commands = {whoami: "Ahmed Shokry"};
+var commands = {
+    whoami: "Ahmed Shokry. Programmer, learner, gamer and cat lover",
+    uptime: (new Date().getFullYear() - new Date('1992').getFullYear()) + " years"
+};
+
+//Ansewrs if the command was not defined
+var commandNotFound = [
+    "Nope", "Umm.. wat?", "I can't answer that", "Nah", "That doesn't make sense to me"
+];
 
 function moveCaret (direction) {
     //get document style sheet
@@ -33,10 +41,17 @@ document.querySelector("body").addEventListener("keypress", function(e) {
 
         if (keynum === 13) {
             command = promptElem.innerHTML.trim();
+            command = commands[command];
+
+            //Pick a random answer if the command was not found in the commands array
+            if (typeof command == 'undefined') {
+                command = commandNotFound[Math.floor(Math.random() * commandNotFound.length)];
+            }
+
             divToClone = document.querySelectorAll(".promptContainer");
             
             //show the command output and clone the prompt text to a new line
-            document.querySelector("body").innerHTML += '<br>' + commands[command] +
+            document.querySelector("body").innerHTML += '<br>' + command +
              '<div class="promptContainer">' + divToClone[divToClone.length - 1].innerHTML + '</div>';
 
             //Remove old ids (to use new clones ones)
