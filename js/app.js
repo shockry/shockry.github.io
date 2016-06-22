@@ -5,14 +5,23 @@ var caretLocation = 0;
 
 var promptElem = document.querySelector("#prompt");
 
+var handleLs = function() {
+    currentDir = document.querySelector("#current-dir").innerHTML;
+    if (currentDir === '~') {
+        return '<div class="ls">' + '<span>projects/</span>' + '<span>education/</span>' + '<span>work/</span>' + '</div>';
+    }
+}
+
 var commands = {
     whoami: "Ahmed Shokry. Programmer, learner, gamer and cat lover",
-    uptime: (new Date().getFullYear() - new Date('1992').getFullYear()) + " years"
+    uptime: (new Date().getFullYear() - new Date('1992').getFullYear()) + " years",
+    ls: handleLs()
 };
 
 //Ansewrs if the command was not defined
 var commandNotFound = [
-    "Nope", "Umm.. wat?", "I can't answer that", "Nah", "That doesn't make sense to me"
+    "Nope", "Umm.. wat?", "I can't answer that", "Nah", "That doesn't make sense to me",
+    "Let me see... No"
 ];
 
 function moveCaret (direction) {
@@ -41,6 +50,12 @@ document.querySelector("body").addEventListener("keypress", function(e) {
 
         if (keynum === 13) {
             command = promptElem.innerHTML.trim();
+
+            //Do nothing if empty command
+            if (command.length === 0){
+                return;
+            }
+
             command = commands[command];
 
             //Pick a random answer if the command was not found in the commands array
@@ -67,6 +82,8 @@ document.querySelector("body").addEventListener("keypress", function(e) {
 
             //Scroll to the end of the window
             window.scrollTo(0,document.body.scrollHeight);
+
+            return;
         }
 
         var character = String.fromCharCode(keynum);

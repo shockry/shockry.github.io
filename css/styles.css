@@ -37,3 +37,7 @@ body {
     position: relative;
     display: inline-block;
 }
+
+.ls span {
+    padding-right: 25px;
+}
