@@ -5,11 +5,13 @@ var caretLocation = 0;
 
 var promptElem = document.querySelector("#prompt");
 
+var commands = {whoami: "Ahmed Shokry"};
+
 function moveCaret (direction) {
     //get document style sheet
     var sheet = document.styleSheets[1];
 
-    //Remove first rule (always ".caret::after")
+    //Remove first rule (always "#prompt::after")
     sheet.deleteRule(0);
 
     if (direction == 'left') {
@@ -21,13 +23,37 @@ function moveCaret (direction) {
     }
 
     //move the caret to the left at every key stroke (the width of the character)
-    sheet.insertRule('.caret::after { right: '+ caretLocation +'px; }', 0);
+    sheet.insertRule('#prompt::after { right: '+ caretLocation +'px; }', 0);
 }
 
 document.querySelector("body").addEventListener("keypress", function(e) {
     var keynum;
     if(e.which){
         var keynum = e.which;
+
+        if (keynum === 13) {
+            command = promptElem.innerHTML.trim();
+            divToClone = document.querySelectorAll(".promptContainer");
+            
+            //show the command output and clone the prompt text to a new line
+            document.querySelector("body").innerHTML += '<br>' + commands[command] +
+             '<div class="promptContainer">' + divToClone[divToClone.length - 1].innerHTML + '</div>';
+
+            //Remove old ids (to use new clones ones)
+            document.querySelector("#prompt").removeAttribute("id");
+            document.querySelector("#placeholder").removeAttribute("id");
+            document.querySelector("#current-dir").removeAttribute("id");
+
+            //Clear the command
+            document.querySelector("#prompt").innerHTML = '';
+
+            //Re-assign the prompt element
+            promptElem = document.querySelector("#prompt");
+
+            //Scroll to the end of the window
+            window.scrollTo(0,document.body.scrollHeight);
+        }
+
         var character = String.fromCharCode(keynum);
         
         // No double spaces allowed

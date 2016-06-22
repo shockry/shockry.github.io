@@ -1,4 +1,4 @@
-.caret::after {
+#prompt::after {
     /*Just a placeholder to be changed from the JS
       cuz I'm tired of trying to append it to the end @_@ */
     right:0px;
@@ -9,17 +9,29 @@ body {
     color: #F7F7F7;
     font-family: 'Ubuntu Mono',  Courier, monospace;
     font-size: 14px;
+    overflow: auto;
 }
 
 #placeholer {
     margin-left: 5px;
 }
 
-.caret::after {
+#prompt::after {
     content: "";
     width: 7px;
     height: 25px;
     background-color: #716f6f;
+    opacity: .5;
+    top: 8px;
+    position: relative;
+    display: inline-block;
+}
+
+/*to keep the height as it is after cloning*/
+.promptContainer::after {
+    content: "";
+    width: 7px;
+    height: 25px;
     opacity: .5;
     top: 8px;
     position: relative;
