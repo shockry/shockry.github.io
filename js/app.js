@@ -12,7 +12,8 @@ var githubLink = "https://github.com/shockry";
 var whichAnswers  = {country: "Egypt",
                      phone: "+20 100 453 1621",
                      email: '<a href="mailto:shokry92@gmail.com">shokry92@gmail.com</a>',
-                     mail: '<a href="mailto:shokry92@gmail.com">shokry92@gmail.com</a>'};
+                     mail: '<a href="mailto:shokry92@gmail.com">shokry92@gmail.com</a>',
+                     age: (new Date().getFullYear() - new Date('1992').getFullYear()) + " years"};
 
 //CORRECTME I wanted a future-proof hierarchy for this situation
 //I thought of a tree for this thing, but I think it's gonna slow things up and waste space.
