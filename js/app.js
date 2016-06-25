@@ -14,13 +14,14 @@ var githubLink = "https://github.com/shockry";
 //in this particular case (where the user is not creating directories, just viewing),
 //it should faster to create objects (hash tables)
 var dirMap = {
-    '~': {data: ["work/", "skills/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>", 
+    '~': {data: ["work/", "skills/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>",
                  "<a href=" + githubLink + " target='_blank'>github</a>"],
           parent: '~'},
     work: {data: ["06/2014 - Present: Full stack web developer", "07/2013 - 06/2014: Freelance developer"],
            listNewLines: true,
            parent: '~'},
-    skills: {data: ["PHP", "SQL", "HTML", "CSS", "Javascript", "JQuery", "AngularJS", "Polymer", "git", "Python", "Java", "Unix/Linux"],
+    skills: {data: ["PHP", "SQL", "HTML", "CSS", "Javascript", "JQuery", "AngularJS", 
+                    "Polymer", "git", "Python", "Java", "Unix/Linux"],
              parent: '~'},
     projects: {data: ['<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
                         'Random codename generator</a>',
@@ -102,7 +103,7 @@ var handleLs = function(currentCommand, currentDir) {
     return "I don't know this directory";
 }
 
-var handleWhich = function(currentCommand) {
+var handleWhich = function(currentCommand, currentDir) {
     command = currentCommand.split(' ');
     if (command.length != 2){
         return "I don't know, I need exactly one parameter";
@@ -115,11 +116,16 @@ var handleWhich = function(currentCommand) {
     return "I don't know which";
 }
 
+var getCurrentDir = function(currentCommand, currentDir) {
+    return document.querySelector("#current-dir").innerHTML;
+}
+
 var commands = {
     whoami: "Ahmed Shokry. Programmer, learner, gamer and cat lover",
     uptime: (new Date().getFullYear() - new Date('1992').getFullYear()) + " years",
     ls: handleLs,
     cd: handleCd,
+    pwd: getCurrentDir,
     which: handleWhich
 };
 
@@ -170,13 +176,7 @@ document.querySelector("body").addEventListener("keypress", function(e) {
             }
 
             if (typeof command === 'function') {
-                if (commandText.indexOf('which') === 0) {
-                    command = command(commandText);
-                } else if (commandText.indexOf('ls') === 0) {
-                    command = command(commandText, document.querySelector("#current-dir").innerHTML);
-                } else if (commandText.indexOf('cd') === 0) {
-                    command = command(commandText, document.querySelector("#current-dir").innerHTML);
-                }
+                command = command(commandText, getCurrentDir());
             }
 
             divToClone = document.querySelectorAll(".promptContainer");
