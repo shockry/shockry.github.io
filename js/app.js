@@ -8,6 +8,12 @@ var promptElem = document.querySelector("#prompt");
 var blogLink = "https://shockry.blogspot.com";
 var githubLink = "https://github.com/shockry";
 
+//Answers to the which command
+var whichAnswers  = {country: "Egypt",
+                     phone: "+20 100 453 1621",
+                     email: '<a href="mailto:shokry92@gmail.com">shokry92@gmail.com</a>',
+                     mail: '<a href="mailto:shokry92@gmail.com">shokry92@gmail.com</a>'};
+
 //CORRECTME I wanted a future-proof hierarchy for this situation
 //I thought of a tree for this thing, but I think it's gonna slow things up and waste space.
 //I know it's better to explicitly specify children, but
@@ -15,7 +21,7 @@ var githubLink = "https://github.com/shockry";
 //it should faster to create objects (hash tables)
 var dirMap = {
     '~': {data: ["work/", "skills/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>",
-                 "<a href=" + githubLink + " target='_blank'>github</a>"],
+                 "<a href=" + githubLink + " target='_blank'>github</a>", "interests/"],
           parent: '~'},
     work: {data: ["06/2014 - Present: Full stack web developer", "07/2013 - 06/2014: Freelance developer"],
            listNewLines: true,
@@ -36,10 +42,10 @@ var dirMap = {
           parent: '~'},
     blog: {data: '', externalLink: blogLink,
            parent: '~'},
-    
     github: {data: '', externalLink: githubLink,
-             parent: '~'}
-
+             parent: '~'},
+    interests: {data: ["Software", "Blogging", "Gaming", "Cycling", "Cats :3"],
+                parent: '~'}
 };
 
 var handleCd = function(currentCommand, currentDir) {
@@ -109,8 +115,8 @@ var handleWhich = function(currentCommand, currentDir) {
         return "I don't know, I need exactly one parameter";
     }
 
-    if (command[1] === 'country') {
-        return "Egypt";
+    if (whichAnswers[command[1]]) {
+        return '<div class="ls"><span>' + whichAnswers[command[1]] +'</span></div>';
     }
 
     return "I don't know which";
