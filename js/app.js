@@ -6,20 +6,32 @@ var caretLocation = 0;
 var promptElem = document.querySelector("#prompt");
 
 var blogLink = "https://shockry.blogspot.com";
+var githubLink = "https://github.com/shockry";
 
 //CORRECTME I wanted a future-proof hierarchy for this situation
 //I thought of a tree for this thing, but I think it's gonna slow things up and waste space.
 //In this particular case (where the user is not creating directories, just viewing),
 //it should faster to create objects (hash tables)
 var dirMap = {
-    '~': {data: ["work/", "projects/", "<a href=" + blogLink + " target='_blank'>blog</a>", "education/"],
+    '~': {data: ["work/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>", 
+                 "<a href=" + githubLink + " target='_blank'>github</a>"],
           parent: '~'},
     education: {data: ["Faculty of computer science, Mansoura university, Egypt"],
           parent: '~'},
     work: {data: ["06/2014 - Present: Full stack web developer<br>", "07/2013 - 06/2014: Freelance developer"],
           parent: '~'},
-    blog: {data: '', link: blogLink,
-           parent: '~'}
+    blog: {data: '', externalLink: blogLink,
+           parent: '~'},
+    projects: {data: ['<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
+                        'Random codename generator</a><br>',
+                      '<a href="http://shokry.dx.am/pomodoro-timer" target="_blank">Ticking Pomodoro timer</a><br>',
+                      "Android application that utilized QR codes to make online shopping lists<br>",
+                      'Self-solving "Machineries and Cannibals" graphical game<br>',
+                      "Parser for a simple-grammar programming language<br>",
+                      "Web application for an international organization (CRS)<br>"],
+               parent: '~'},
+    github: {data: '', externalLink: githubLink,
+             parent: '~'}
 
 };
 
@@ -36,8 +48,8 @@ var handleCd = function(currentCommand, currentDir) {
 
     if (command.length === 2) {
         if (typeof dirMap[command[1]] != 'undefined' && dirMap[command[1]].parent === currentDir) {
-            if (dirMap[command[1]].link) {
-                window.open(dirMap[command[1]].link);
+            if (dirMap[command[1]].externalLink) {
+                window.open(dirMap[command[1]].externalLink);
                 return "Opened in a new tab";
             }
             return {changedDir: command[1]};
@@ -66,12 +78,16 @@ var handleLs = function(currentCommand, currentDir) {
     }
 
     if (command.length === 2) {
-        if (command[1] === 'blog') {
+        if (dirMap[command[1]].externalLink) {
             return '<div class="ls"><span>' + 
-                'Click the <a href="' + blogLink + '" target="_blank">link</a> or cd to blog' +
+                'Click the <a href="' + dirMap[command[1]].externalLink + 
+                '" target="_blank">link</a> or cd to ' + command[1] +
                 '</span></div>';
         }
-        return handleLs(command[0], command[1]);
+        if (dirMap[command[1]].parent === currentDir) {
+            //command[0] is just "ls" now
+            return handleLs(command[0], command[1]);
+        }
     }
 
     return "I don't know this directory";
