@@ -59,7 +59,7 @@ var handleCd = function(currentCommand, currentDir) {
         return "I don't know, I need one or two parameters";
     }
 
-    if (command.length === 1 || (command.length === 2 && command[1] == '..')) {
+    if (command.length === 1 || (command.length === 2 && (command[1] == '..' || command[1] == '~'))) {
         return {changedDir: dirMap[currentDir].parent};
     }
 
