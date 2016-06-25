@@ -212,6 +212,13 @@ document.querySelector("body").addEventListener("keypress", function(e) {
             //Scroll to the end of the window
             window.scrollTo(0,document.body.scrollHeight);
 
+            //Move caret to the beginning of the typing area.
+            //A precaution for when the user has moved to the left
+            for (var i = offsetFromRight; i < 0; i++) {
+                moveCaret('right');
+            }
+            offsetFromRight = 0;
+
             return;
         }
 

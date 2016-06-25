@@ -41,8 +41,9 @@ body {
 
 .ls span {
     padding-right: 25px;
+    line-height: 1.2;
 }
 
 .ls a {
     color: #FFF;
-}
+},
