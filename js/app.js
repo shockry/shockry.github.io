@@ -10,26 +10,32 @@ var githubLink = "https://github.com/shockry";
 
 //CORRECTME I wanted a future-proof hierarchy for this situation
 //I thought of a tree for this thing, but I think it's gonna slow things up and waste space.
-//In this particular case (where the user is not creating directories, just viewing),
+//I know it's better to explicitly specify children, but
+//in this particular case (where the user is not creating directories, just viewing),
 //it should faster to create objects (hash tables)
 var dirMap = {
-    '~': {data: ["work/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>", 
+    '~': {data: ["work/", "skills/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>", 
                  "<a href=" + githubLink + " target='_blank'>github</a>"],
           parent: '~'},
+    work: {data: ["06/2014 - Present: Full stack web developer", "07/2013 - 06/2014: Freelance developer"],
+           listNewLines: true,
+           parent: '~'},
+    skills: {data: ["PHP", "SQL", "HTML", "CSS", "Javascript", "JQuery", "AngularJS", "Polymer", "git", "Python", "Java", "Unix/Linux"],
+             parent: '~'},
+    projects: {data: ['<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
+                        'Random codename generator</a>',
+                      '<a href="http://shokry.dx.am/pomodoro-timer" target="_blank">Ticking Pomodoro timer</a>',
+                      "Android application that utilized QR codes to make online shopping lists",
+                      'Self-solving "Machineries and Cannibals" graphical game',
+                      "Parser for a simple-grammar programming language",
+                      "Web application for an international organization (CRS)"],
+               listNewLines: true,
+               parent: '~'},
     education: {data: ["Faculty of computer science, Mansoura university, Egypt"],
-          parent: '~'},
-    work: {data: ["06/2014 - Present: Full stack web developer<br>", "07/2013 - 06/2014: Freelance developer"],
           parent: '~'},
     blog: {data: '', externalLink: blogLink,
            parent: '~'},
-    projects: {data: ['<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
-                        'Random codename generator</a><br>',
-                      '<a href="http://shokry.dx.am/pomodoro-timer" target="_blank">Ticking Pomodoro timer</a><br>',
-                      "Android application that utilized QR codes to make online shopping lists<br>",
-                      'Self-solving "Machineries and Cannibals" graphical game<br>',
-                      "Parser for a simple-grammar programming language<br>",
-                      "Web application for an international organization (CRS)<br>"],
-               parent: '~'},
+    
     github: {data: '', externalLink: githubLink,
              parent: '~'}
 
@@ -72,6 +78,9 @@ var handleLs = function(currentCommand, currentDir) {
 
             for (var i=0; i< dirMap[currentDir].data.length; i++) {
                 fileList += '<span>' + dirMap[currentDir].data[i] + '</span>';
+                if (dirMap[currentDir].listNewLines) {
+                    fileList += '<br>';
+                }
             }
             return fileList + '</div>';
         }
