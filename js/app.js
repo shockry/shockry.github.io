@@ -64,6 +64,7 @@ var handleCd = function(currentCommand, currentDir) {
     }
 
     if (command.length === 2) {
+        //Check if the desired directory is at the current directory before proceeding
         if (typeof dirMap[command[1]] != 'undefined' && dirMap[command[1]].parent === currentDir) {
             if (dirMap[command[1]].externalLink) {
                 window.open(dirMap[command[1]].externalLink);
@@ -86,7 +87,7 @@ var handleLs = function(currentCommand, currentDir) {
     if (command.length === 1) {
         if (typeof dirMap[currentDir] != 'undefined') {
             var fileList = '<div class="ls">';
-
+            //Loop through the data array of the current directory and display it
             for (var i=0; i< dirMap[currentDir].data.length; i++) {
                 fileList += '<span>' + dirMap[currentDir].data[i] + '</span>';
                 if (dirMap[currentDir].listNewLines) {
@@ -97,6 +98,7 @@ var handleLs = function(currentCommand, currentDir) {
         }
     }
 
+    //If a directory name is specified, recursevly ls that directory if it's not a link to something
     if (command.length === 2) {
         if (dirMap[command[1]].externalLink) {
             return '<div class="ls"><span>' + 
@@ -105,7 +107,7 @@ var handleLs = function(currentCommand, currentDir) {
                 '</span></div>';
         }
         if (dirMap[command[1]].parent === currentDir) {
-            //command[0] is just "ls" now
+            //command[0] is just "ls" now, command[1] is the new "currentDir" we wanna listaaaaass
             return handleLs(command[0], command[1]);
         }
     }
@@ -142,7 +144,7 @@ var commands = {
 //Ansewrs pool if the command was not defined
 var commandNotFound = [
     "Nope", "Umm.. wat?", "I can't answer that", "Nah", "That doesn't make sense to me",
-    "Let me see... No"
+    "Let me see... No", "You misspelled something?"
 ];
 
 function moveCaret (direction) {
@@ -154,9 +156,11 @@ function moveCaret (direction) {
 
     if (direction == 'left') {
         //Every character is 7 pixels in width
+        //FIXME: make this dynamic
         caretLocation += 7;
     } else {
         //Every character is 7 pixels in width
+        //FIXME: make this dynamic
         caretLocation -= 7;
     }
 
@@ -192,13 +196,13 @@ document.querySelector("body").addEventListener("keypress", function(e) {
             divToClone = document.querySelectorAll(".promptContainer");
             
             //If you're changing directories, don't print out anything
-            //else show the command output and clone the prompt text to a new line
+            //otherwise show the command output and clone the prompt text to a new line
             commandOut = command.changedDir? '': command;
             
             document.querySelector("body").innerHTML += '<br>' + commandOut +
              '<div class="promptContainer">' + divToClone[divToClone.length - 1].innerHTML + '</div>';
 
-            //Remove old ids (to use new clones ones)
+            //Remove old ids (to use new clones' ones)
             document.querySelector("#prompt").removeAttribute("id");
             document.querySelector("#placeholder").removeAttribute("id");
             document.querySelector("#current-dir").removeAttribute("id");
@@ -295,6 +299,7 @@ document.querySelector("body").addEventListener("keydown", function(e) {
                 moveCaret('right');
             }
         }
+        //Command stack navigation
         else if (e.which === 38) { //Up arrow
             if (currentStackCommand < commandStack.length - 1){
                 currentStackCommand += 1;
