@@ -3,6 +3,9 @@ var offsetFromRight = 0;
 //The location of the caret (above which character) in pixels
 var caretLocation = 0;
 
+var commandStack = [];
+var currentStackCommand = -1;
+
 var promptElem = document.querySelector("#prompt");
 
 var blogLink = "https://shockry.blogspot.com";
@@ -220,6 +223,10 @@ document.querySelector("body").addEventListener("keypress", function(e) {
             }
             offsetFromRight = 0;
 
+            //Push into the command stack and set the pointer to the top
+            commandStack.unshift(commandText);
+            currentStackCommand = -1;
+
             return;
         }
 
@@ -286,6 +293,20 @@ document.querySelector("body").addEventListener("keydown", function(e) {
             if (offsetFromRight < 0){
                 offsetFromRight += 1;
                 moveCaret('right');
+            }
+        }
+        else if (e.which === 38) { //Up arrow
+            if (currentStackCommand < commandStack.length - 1){
+                currentStackCommand += 1;
+                promptElem.innerHTML = commandStack[currentStackCommand];
+            }
+        }
+        else if (e.which === 40) { //Down arrow
+            if (currentStackCommand > 0){
+                currentStackCommand -= 1;
+                promptElem.innerHTML = commandStack[currentStackCommand];
+            } else {
+                promptElem.innerHTML = '';
             }
         }
     }
