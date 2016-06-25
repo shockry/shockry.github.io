@@ -41,3 +41,7 @@ body {
 .ls span {
     padding-right: 25px;
 }
+
+.ls a {
+    color: #FFF;
+}

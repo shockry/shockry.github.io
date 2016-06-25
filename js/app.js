@@ -5,20 +5,100 @@ var caretLocation = 0;
 
 var promptElem = document.querySelector("#prompt");
 
-var handleLs = function() {
-    currentDir = document.querySelector("#current-dir").innerHTML;
-    if (currentDir === '~') {
-        return '<div class="ls">' + '<span>projects/</span>' + '<span>education/</span>' + '<span>work/</span>' + '</div>';
+var blogLink = "https://shockry.blogspot.com";
+
+//CORRECTME I wanted a future-proof hierarchy for this situation
+//I thought of a tree for this thing, but I think it's gonna slow things up and waste space.
+//In this particular case (where the user is not creating directories, just viewing),
+//it should faster to create objects (hash tables)
+var dirMap = {
+    '~': {data: ["work/", "projects/", "<a href=" + blogLink + " target='_blank'>blog</a>", "education/"],
+          parent: '~'},
+    education: {data: ["Faculty of computer science, Mansoura university, Egypt"],
+          parent: '~'},
+    work: {data: ["06/2014 - Present: Full stack web developer<br>", "07/2013 - 06/2014: Freelance developer"],
+          parent: '~'},
+    blog: {data: '', link: blogLink,
+           parent: '~'}
+
+};
+
+var handleCd = function(currentCommand, currentDir) {
+    command = currentCommand.split(' ');
+
+    if (command.length > 2){
+        return "I don't know, I need one or two parameters";
     }
+
+    if (command.length === 1 || (command.length === 2 && command[1] == '..')) {
+        return {changedDir: dirMap[currentDir].parent};
+    }
+
+    if (command.length === 2) {
+        if (typeof dirMap[command[1]] != 'undefined' && dirMap[command[1]].parent === currentDir) {
+            if (dirMap[command[1]].link) {
+                window.open(dirMap[command[1]].link);
+                return "Opened in a new tab";
+            }
+            return {changedDir: command[1]};
+        }
+    }
+
+    return "No such directory";
+}
+
+var handleLs = function(currentCommand, currentDir) {
+    command = currentCommand.split(' ');
+
+    if (command.length > 2){
+        return "I don't know, I need one or two parameters";
+    }
+
+    if (command.length === 1) {
+        if (typeof dirMap[currentDir] != 'undefined') {
+            var fileList = '<div class="ls">';
+
+            for (var i=0; i< dirMap[currentDir].data.length; i++) {
+                fileList += '<span>' + dirMap[currentDir].data[i] + '</span>';
+            }
+            return fileList + '</div>';
+        }
+    }
+
+    if (command.length === 2) {
+        if (command[1] === 'blog') {
+            return '<div class="ls"><span>' + 
+                'Click the <a href="' + blogLink + '" target="_blank">link</a> or cd to blog' +
+                '</span></div>';
+        }
+        return handleLs(command[0], command[1]);
+    }
+
+    return "I don't know this directory";
+}
+
+var handleWhich = function(currentCommand) {
+    command = currentCommand.split(' ');
+    if (command.length != 2){
+        return "I don't know, I need exactly one parameter";
+    }
+
+    if (command[1] === 'country') {
+        return "Egypt";
+    }
+
+    return "I don't know which";
 }
 
 var commands = {
     whoami: "Ahmed Shokry. Programmer, learner, gamer and cat lover",
     uptime: (new Date().getFullYear() - new Date('1992').getFullYear()) + " years",
-    ls: handleLs()
+    ls: handleLs,
+    cd: handleCd,
+    which: handleWhich
 };
 
-//Ansewrs if the command was not defined
+//Ansewrs pool if the command was not defined
 var commandNotFound = [
     "Nope", "Umm.. wat?", "I can't answer that", "Nah", "That doesn't make sense to me",
     "Let me see... No"
@@ -49,24 +129,38 @@ document.querySelector("body").addEventListener("keypress", function(e) {
         var keynum = e.which;
 
         if (keynum === 13) {
-            command = promptElem.innerHTML.trim();
+            commandText = promptElem.innerHTML.trim();
 
             //Do nothing if empty command
-            if (command.length === 0){
+            if (commandText.length === 0){
                 return;
             }
 
+            command = commandText.split(' ')[0];
             command = commands[command];
 
             //Pick a random answer if the command was not found in the commands array
-            if (typeof command == 'undefined') {
+            if (typeof command === 'undefined') {
                 command = commandNotFound[Math.floor(Math.random() * commandNotFound.length)];
+            }
+
+            if (typeof command === 'function') {
+                if (commandText.indexOf('which') === 0) {
+                    command = command(commandText);
+                } else if (commandText.indexOf('ls') === 0) {
+                    command = command(commandText, document.querySelector("#current-dir").innerHTML);
+                } else if (commandText.indexOf('cd') === 0) {
+                    command = command(commandText, document.querySelector("#current-dir").innerHTML);
+                }
             }
 
             divToClone = document.querySelectorAll(".promptContainer");
             
-            //show the command output and clone the prompt text to a new line
-            document.querySelector("body").innerHTML += '<br>' + command +
+            //If you're changing directories, don't print out anything
+            //else show the command output and clone the prompt text to a new line
+            commandOut = command.changedDir? '': command;
+            
+            document.querySelector("body").innerHTML += '<br>' + commandOut +
              '<div class="promptContainer">' + divToClone[divToClone.length - 1].innerHTML + '</div>';
 
             //Remove old ids (to use new clones ones)
@@ -79,6 +173,10 @@ document.querySelector("body").addEventListener("keypress", function(e) {
 
             //Re-assign the prompt element
             promptElem = document.querySelector("#prompt");
+
+            if (command.changedDir) {
+                document.querySelector("#current-dir").innerHTML = command.changedDir;
+            }
 
             //Scroll to the end of the window
             window.scrollTo(0,document.body.scrollHeight);
