@@ -151,17 +151,19 @@ function moveCaret (direction) {
     //get document style sheet
     var sheet = document.styleSheets[1];
 
+    //A workaround to get current character width (always make it monospace, please)
+    //We still need a dynamic width for the caret itself
+    var charWidth = document.querySelector("#char-width").clientWidth;
+
     //Remove first rule (always "#prompt::after")
     sheet.deleteRule(0);
 
     if (direction == 'left') {
-        //Every character is 7 pixels in width
-        //FIXME: make this dynamic
-        caretLocation += 7;
+        //Move by the width of one character
+        caretLocation += charWidth;
     } else {
-        //Every character is 7 pixels in width
-        //FIXME: make this dynamic
-        caretLocation -= 7;
+        //Move by the width of one character
+        caretLocation -= charWidth;
     }
 
     //move the caret to the left at every key stroke (the width of the character)

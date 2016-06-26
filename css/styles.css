@@ -19,6 +19,7 @@ body {
 
 #prompt::after {
     content: "";
+    /*FIXME: make this dynamic as the font changes*/
     width: 7px;
     height: 25px;
     background-color: #716f6f;
@@ -46,4 +47,10 @@ body {
 
 a {
     color: #FFF;
-},
+}
+
+#char-width {
+    position: absolute;
+    opacity: 0;
+    float:left;
+}
