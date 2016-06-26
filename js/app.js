@@ -301,12 +301,14 @@ document.querySelector("body").addEventListener("keydown", function(e) {
         }
         //Command stack navigation
         else if (e.which === 38) { //Up arrow
+            e.preventDefault();
             if (currentStackCommand < commandStack.length - 1){
                 currentStackCommand += 1;
                 promptElem.innerHTML = commandStack[currentStackCommand];
             }
         }
         else if (e.which === 40) { //Down arrow
+            e.preventDefault();
             if (currentStackCommand > 0){
                 currentStackCommand -= 1;
                 promptElem.innerHTML = commandStack[currentStackCommand];
