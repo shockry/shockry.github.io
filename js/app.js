@@ -30,7 +30,7 @@ var dirMap = {
     work: {data: ["06/2014 - Present: Full stack web developer", "07/2013 - 06/2014: Freelance developer"],
            listNewLines: true,
            parent: '~'},
-    skills: {data: ["PHP", "SQL", "HTML", "CSS", "Javascript", "JQuery", "AngularJS", 
+    skills: {data: ["PHP", "SQL", "HTML", "CSS", "Javascript", "JQuery", "AngularJS",
                     "Polymer", "git", "Python", "Java", "Unix/Linux"],
              parent: '~'},
     projects: {data: ['<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
@@ -91,7 +91,7 @@ var handleLs = function(currentCommand, currentDir) {
             for (var i=0; i< dirMap[currentDir].data.length; i++) {
                 fileList += '<span>' + dirMap[currentDir].data[i] + '</span>';
                 if (dirMap[currentDir].listNewLines) {
-                    fileList += '<br>';
+                    fileList += '<div class="space-separator"></div>';
                 }
             }
             return fileList + '</div>';
@@ -101,8 +101,8 @@ var handleLs = function(currentCommand, currentDir) {
     //If a directory name is specified, recursevly ls that directory if it's not a link to something
     if (command.length === 2) {
         if (dirMap[command[1]].externalLink) {
-            return '<div class="ls"><span>' + 
-                'Click the <a href="' + dirMap[command[1]].externalLink + 
+            return '<div class="ls"><span>' +
+                'Click the <a href="' + dirMap[command[1]].externalLink +
                 '" target="_blank">link</a> or cd to ' + command[1] +
                 '</span></div>';
         }
@@ -196,11 +196,11 @@ document.querySelector("body").addEventListener("keypress", function(e) {
             }
 
             divToClone = document.querySelectorAll(".promptContainer");
-            
+
             //If you're changing directories, don't print out anything
             //otherwise show the command output and clone the prompt text to a new line
             commandOut = command.changedDir? '': command;
-            
+
             document.querySelector("body").innerHTML += '<br>' + commandOut +
              '<div class="promptContainer">' + divToClone[divToClone.length - 1].innerHTML + '</div>';
 
@@ -237,14 +237,14 @@ document.querySelector("body").addEventListener("keypress", function(e) {
         }
 
         var character = String.fromCharCode(keynum);
-        
+
         // No double spaces allowed
         if (keynum === 32) {
-            //If the caret has moved two places to the left, 
+            //If the caret has moved two places to the left,
             //check if there's a space under tha caret or after it
             //Otherwise just check for the last character
             if (offsetFromRight < -1) {
-                if (promptElem.innerHTML.slice(offsetFromRight-1, offsetFromRight) === ' ' || 
+                if (promptElem.innerHTML.slice(offsetFromRight-1, offsetFromRight) === ' ' ||
                     promptElem.innerHTML.slice(offsetFromRight, offsetFromRight+1) === ' ') {
                     return;
                 }
@@ -252,7 +252,7 @@ document.querySelector("body").addEventListener("keypress", function(e) {
                 if (promptElem.innerHTML.slice(-1) === ' ') {
                     return;
                 }
-            }            
+            }
         }
 
         //If the caret has moved, the string is left half + typed character + right half

@@ -40,9 +40,24 @@ body {
     display: inline-block;
 }
 
+.promptContainer {
+  clear: both;
+}
+
+.ls {
+  width: 100%;
+  max-width: 900px;
+}
+
+.space-separator {
+  clear: both;
+  margin-top: 3px;
+}
+
 .ls span {
     padding-right: 25px;
     line-height: 1.2;
+    float: left;
 }
 
 a {
