@@ -30,16 +30,22 @@ var dirMap = {
     work: {data: ["06/2014 - Present: Full stack web developer", "07/2013 - 06/2014: Freelance developer"],
            listNewLines: true,
            parent: '~'},
-    skills: {data: ["PHP", "SQL", "HTML", "CSS", "Javascript", "JQuery", "AngularJS",
+    skills: {data: ["PHP", "MySQL", "Laravel", "HTML", "CSS", "Javascript", "React",
+                    "Mocha", "Babel", "Webpack", "JQuery", "AngularJS", "Vim",
                     "Polymer", "git", "Python", "Java", "Unix/Linux"],
              parent: '~'},
-    projects: {data: ['<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
-                        'Random codename generator</a>',
+    projects: {data: ['<a href="https://github.com/shockry/remotrack-web" target="_blank">' +
+                              'Remotely-controlled web game via iPhone\'s sensors over Bluetooth</a>',
+                      '<a href="https://shockry.github.io/editest/" target="_blank">' +
+                              'Friendly photo editor, making use of Javascript\'s consurrency features</a>',
+                      '<a href="http://shokry.dx.am/random-name-generator" target="_blank">' +
+                              'Random codename generator</a>',
                       '<a href="http://shokry.dx.am/pomodoro-timer" target="_blank">Ticking Pomodoro timer</a>',
                       "Android application that utilized QR codes to make online shopping lists",
                       'Self-solving "Machineries and Cannibals" graphical game',
                       "Parser for a simple-grammar programming language",
-                      "Web application for an international organization (CRS)"],
+                      "Web application for an international organization (CRS)"
+                      ],
                listNewLines: true,
                parent: '~'},
     education: {data: ["Faculty of computer science, Mansoura university, Egypt"],
