@@ -27,12 +27,13 @@ var dirMap = {
     '~': {data: ["work/", "skills/", "projects/", "education/", "<a href=" + blogLink + " target='_blank'>blog</a>",
                  "<a href=" + githubLink + " target='_blank'>github</a>", "interests/"],
           parent: '~'},
-    work: {data: ["06/2014 - Present: Full stack web developer", "07/2013 - 06/2014: Freelance developer"],
+    work: {data: ["08/2017 - present Software Engineer, Symbyo technologies", "06/2014 - 06/2017 Full stack web developer, Inception soft solutions", "07/2013 - 06/2014: Freelance developer"],
            listNewLines: true,
            parent: '~'},
     skills: {data: ["PHP", "MySQL", "Laravel", "HTML", "CSS", "Javascript", "React",
+                    "Redux", "Nodejs", "Mongodb", "Azure",
                     "Mocha", "Babel", "Webpack", "JQuery", "AngularJS", "Vim",
-                    "Polymer", "git", "Python", "Java", "Unix/Linux"],
+                    "Polymer", "git", "Python", "Java", "Unix/Linux" ],
              parent: '~'},
     projects: {data: ['<a href="https://github.com/shockry/remotrack-web" target="_blank">' +
                               'Remotely-controlled web game via iPhone\'s sensors over Bluetooth</a>',
@@ -42,7 +43,7 @@ var dirMap = {
                               'Random codename generator</a>',
                       '<a href="http://shokry.dx.am/pomodoro-timer" target="_blank">Ticking Pomodoro timer</a>',
                       "Android application that utilized QR codes to make online shopping lists",
-                      'Self-solving "Machineries and Cannibals" graphical game',
+                      'Self-solving "Missionaries and Cannibals" graphical game',
                       "Parser for a simple-grammar programming language",
                       "Web application for an international organization (CRS)"
                       ],
@@ -54,7 +55,7 @@ var dirMap = {
            parent: '~'},
     github: {data: '', externalLink: githubLink,
              parent: '~'},
-    interests: {data: ["Software", "Blogging", "Gaming", "Cycling", "Cats :3"],
+    interests: {data: ["Software", "Blogging", "Writing short stories", "Gaming", "Cycling", "Cats :3"],
                 parent: '~'}
 };
 
